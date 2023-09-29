@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">SCUVTS</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="not_yet_refreshed">belum penyegaran</string>
+    <string name="about_us">PT Sigma Cipta Utama (SCU) which is a subsidiary of PT Elnusa Tbk (subsidiary of Pertamina) has been established since April 8, 1980. The business enterprise began with data management in the oil and gas industry. Consistent with the policy of the Holding Company Elnusa, SCU was appointed as the only sole </string>
+    <string name="about_us2">subsidiary in charge of Data Management in Elnusa Group, since November 2007 PT Elnusa Telematika experienced in the field of telematics (since 1984) and PT Elnusa Rentrakom experienced in the field of telecommunications (since 1997), merged with the SCU to strengthen and complement the competencies and business enterprises in the areas of Data Management Services.</string>
+    <string name="announce_text_maintenance">Server Dalam Pemeliharaan!</string>
+    <string name="announce_try_again">Silahkan coba akses lain waktu.</string>
+    <string name="imageerror">imageError</string>
+    <string name="okeh">OK</string>
+</resources>

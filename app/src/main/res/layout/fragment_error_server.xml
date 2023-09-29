@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="350dp"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/rounded_frame_white"
+    android:id="@+id/errorNihServernya"
+    tools:context=".ErrorServer">
+
+    <ImageView
+        android:id="@+id/imageError"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/baseline_error_24"
+        android:contentDescription="@string/imageerror" />
+
+    <TextView
+        android:id="@+id/pesanError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="138dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/announce_text_maintenance"
+        android:textSize="20sp"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/subpesanError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pesanError"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="154dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/announce_try_again"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textColor="@color/black"/>
+
+    <ImageView
+        android:layout_width="82dp"
+        android:layout_height="31dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/rounded_frame"
+        android:src="@drawable/rounded_frame"
+        android:contentDescription="@string/okeh"
+        android:onClick="onImageViewClick"
+        android:id="@+id/okButton"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="31dp"
+        android:fontFamily="@font/poppins_bold"
+        android:text="@string/okeh"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
