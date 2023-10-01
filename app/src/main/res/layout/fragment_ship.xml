@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="92dp"
         android:fontFamily="@font/poppins_bold"
         android:lineSpacingExtra="8sp"
@@ -23,17 +23,6 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:typeface="normal" />
-
-    <SearchView
-        android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="48dp"
-        android:queryHint="cari nama kapal"
-        android:iconifiedByDefault="false"
-        android:background="@drawable/search_background_bar"
-        android:id="@+id/searchView"
-        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -44,7 +33,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="119dp"
+        android:layout_marginTop="71dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
         android:background="@color/white">
@@ -59,13 +48,41 @@
     </ScrollView>
 
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="97dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="15dp"
+        android:layout_toStartOf="@+id/textView3"
+        android:layout_toEndOf="@+id/mmsi_title"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Nama Kapal"
+        android:textAlignment="center"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/mmsi_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="47dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="MMSI"
+        android:textAlignment="center"
+        android:textColor="#000000" />
+
+    <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="93dp"
-        android:layout_marginEnd="29dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="32dp"
         android:fontFamily="@font/poppins_regular"
         android:text="Kecepatan"
         android:textAlignment="center"
@@ -80,37 +97,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="-3dp"
-        android:layout_marginTop="91dp"
-        android:layout_marginEnd="-1dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="0dp"
         android:background="@android:color/black" />
-
-    <TextView
-        android:id="@+id/mmsi_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="93dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="MMSI"
-        android:textAlignment="center"
-        android:textColor="#000000" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="97dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="93dp"
-        android:layout_marginEnd="15dp"
-        android:layout_toStartOf="@+id/textView3"
-        android:layout_toEndOf="@+id/mmsi_title"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Nama Kapal"
-        android:textAlignment="center"
-        android:textColor="#000000" />
 
     <View
         android:layout_width="match_parent"
@@ -119,7 +108,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="-1dp"
-        android:layout_marginTop="118dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="-1dp"
         android:background="@android:color/black" />
 
