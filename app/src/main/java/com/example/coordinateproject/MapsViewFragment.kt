@@ -13,9 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.example.coordinateproject.response.APIService
-import com.example.coordinateproject.response.ApiResponse
+import com.example.coordinateproject.response.wmoarea
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -30,9 +29,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
@@ -53,7 +49,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this) // inisiasi sinkronisasi dari tampilan fragment map
         mapFragment.getMapAsync { googleMap ->
-            googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+            googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
             // mengganti tampilan map menjadi mode tampilan satelit
         }
         makeApiCall()
@@ -78,7 +74,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
     // Take all data with passing from API using Bearer Token by Retrofit Library
     object RetrofitClient {
-        private const val BASE_URL = "https://api.scu.co.id/vtms/wmo/"
+        private const val BASE_URL = "https://api.scu.co.id/vtms/wmoarea/"
         private const val AUTH_TOKEN = "73ob73y64nt3n653k4l1"
         private val httpClient = OkHttpClient.Builder().addInterceptor { chain ->
             val original = chain.request()
@@ -105,7 +101,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     }
 
     // Apply Marker and Marker Option on Map
-    private fun setCustomMarkerIcon(location: LatLng, name: String, heading: Float, calcspeed: Int, date:String, mmsi: String, imo: String) {
+    private fun setCustomMarkerIcon(location: LatLng, name: String, heading: Float, calcspeed: Double, date:String, mmsi: String, imo: String) {
         val markerOptions = MarkerOptions()
             .position(location)
             .title(name)
@@ -135,9 +131,9 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
     // Main Process of Managing data from API to Map Visualization
     private fun makeApiCall() {
-        val call = RetrofitClient.apiService.getData("73ob73y64nt3n653k4l1")
-        call.enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+        val call = RetrofitClient.apiService.getAllDataKapal("73ob73y64nt3n653k4l1")
+        call.enqueue(object : Callback<wmoarea> {
+            override fun onResponse(call: Call<wmoarea>, response: Response<wmoarea>) {
                 if (response.isSuccessful) {
                     val data = response.body()
                     if (data != null) {
@@ -169,7 +165,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<wmoarea>, t: Throwable) {
                 // Handle failure
                 // This method is called when the API call fails, for example, due to a network issue.
                 val errorServer = ErrorServer()
@@ -178,6 +174,8 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                     .addToBackStack(null) // Optional, adds the fragment to the back stack
                     .commit()
             }
+
+
         })
     }
 
@@ -200,8 +198,8 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     inner class CustomInfoMarker(private val context: Context,
                                  private val imo: String,
                                  private val mmsi: String,
-                                 private val calcspeed: Int,
-                                 private val name: String,
+                                 private val calcspeed: Double,
+                                 private val name: String?,
                                  private val date: String) : GoogleMap.InfoWindowAdapter {
 
         @SuppressLint("InflateParams", "SetTextI18n")

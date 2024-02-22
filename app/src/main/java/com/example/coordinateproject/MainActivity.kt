@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction
 class MainActivity : AppCompatActivity() {
     private var isSidebarVisible = false
     @SuppressLint("WrongViewCast")
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

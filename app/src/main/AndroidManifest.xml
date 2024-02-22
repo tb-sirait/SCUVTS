@@ -17,8 +17,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.CoordinateProject"
-        tools:targetApi="31"
+        tools:targetApi="tiramisu"
         android:screenOrientation="portrait">
         <activity
             android:name=".SplashActivity"

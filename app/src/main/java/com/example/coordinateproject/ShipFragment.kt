@@ -3,30 +3,18 @@ package com.example.coordinateproject
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.coordinateproject.response.APIService
-import com.example.coordinateproject.response.ApiResponse
-import com.example.coordinateproject.response.Data
-import com.google.android.gms.maps.model.LatLng
-import okhttp3.OkHttpClient
+import com.example.coordinateproject.response.wmoarea
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 
 class ShipFragment : Fragment() {
@@ -56,10 +44,10 @@ class ShipFragment : Fragment() {
     }
 
     private fun apiCallData(){
-        val call = MapsViewFragment.RetrofitClient.apiService.getData("73ob73y64nt3n653k4l1")
-        call.enqueue(object : Callback<ApiResponse> {
+        val call = MapsViewFragment.RetrofitClient.apiService.getAllDataKapal("73ob73y64nt3n653k4l1")
+        call.enqueue(object : Callback<wmoarea> {
             @SuppressLint("NotifyDataSetChanged")
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+            override fun onResponse(call: Call<wmoarea>, response: Response<wmoarea>) {
                 if (response.isSuccessful) {
                     val data = response.body()
                     if (data != null) {
@@ -80,7 +68,7 @@ class ShipFragment : Fragment() {
                     Toast.makeText(context, "Can't Call API Data", Toast.LENGTH_SHORT).show()
                 }
             }
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<wmoarea>, t: Throwable) {
                 // Handle failure
 
             }
