@@ -52,4 +52,11 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:layout_gravity="bottom"
+        />
+
 </androidx.cardview.widget.CardView>
