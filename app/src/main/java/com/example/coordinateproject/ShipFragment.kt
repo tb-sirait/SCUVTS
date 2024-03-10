@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coordinateproject.response.wmoarea
+import com.example.coordinateproject.responseBypass.WMOArea
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,7 +45,7 @@ class ShipFragment : Fragment() {
     }
 
     private fun apiCallData(){
-        val call = MapsViewFragment.RetrofitClient.apiService.getAllDataKapal("73ob73y64nt3n653k4l1")
+        val call = WMOArea.WMOAREARetrofit.apiService.getAllDataKapal("73ob73y64nt3n653k4l1")
         call.enqueue(object : Callback<wmoarea> {
             @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call<wmoarea>, response: Response<wmoarea>) {
