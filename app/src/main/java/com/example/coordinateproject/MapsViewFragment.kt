@@ -302,8 +302,8 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         override fun run() {
             mMap.clear()
             makeWMOCall()
-            makeAreaCall()
             makePOICall()
+            makeAreaCall()
             refreshHandler.postDelayed(this, REFRESH_INTERVAL)
         }
     }
