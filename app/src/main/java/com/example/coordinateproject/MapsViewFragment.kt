@@ -1,18 +1,15 @@
 package com.example.coordinateproject
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.example.coordinateproject.response.ApiResponse
 import com.example.coordinateproject.response.POIData
 import com.example.coordinateproject.response.wmoarea
@@ -25,21 +22,17 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.coordinateproject.customMarker.CustomInfoPOI
-import com.example.coordinateproject.customMarker.CustomInfoWMO
-import com.example.coordinateproject.customMarker.CustomInfoArea
 
 class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private val REFRESH_INTERVAL: Long = 30 * 1000 // 30 seconds in milliseconds
     private lateinit var refreshHandler: Handler
-    private var  tokenAPI: String = "73ob73y64nt3n653k4l1"
+    private var tokenAPI: String = "73ob73y64nt3n653k4l1"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,12 +45,10 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this) // inisiasi sinkronisasi dari tampilan fragment map
+        mapFragment.getMapAsync(this)
         mapFragment.getMapAsync { googleMap ->
             googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            // mengganti tampilan map menjadi mode tampilan satelit
         }
-        makeWMOCall()
         // Implement other LocationListener methods as needed
         refreshHandler = Handler()
         refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL)
@@ -66,29 +57,26 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     //fungsi dari tampilan map
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap // initialize Map Library to using marker and markerOption
-        val latitude = -4.200000 // latitude Indonesia
-        val longitude = 106.816666 // Longtitude Indonesia
-        val mapAwal = LatLng(latitude,longitude) // direct map view to Indonesia
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mapAwal, 2f))
+        val latitude = -6.9135609 // Lattitude WMO
+        val longitude = 112.5814275 // Longtitude WMO
+        val mapAwal = LatLng(latitude,longitude) // WMO
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mapAwal, 8.5f))
         makeWMOCall()
-        makeAreaCall()
         makePOICall()
+        makeAreaCall()
         // Implement other LocationListener methods as needed
         refreshHandler = Handler()
         refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL)
 
     }
 
-    // Apply Heading marker on Vessel heading direction
-    private fun rotateBitmap(bitmap: Bitmap, degrees: Float): Bitmap {
-        val matrix = Matrix()
-        matrix.postRotate(degrees)
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-    }
-
     // POI
-    private fun setCustomMarkerPOI(location: LatLng, name: String, type: Int, type_name: String) {
-        val markerOptions = MarkerOptions()
+    private fun setCustomMarkerPOI(
+        location: LatLng,
+        name: String,
+        type: Int,
+        type_name: String) {
+        val markerOptionsPOI = MarkerOptions()
             .position(location)
             .title(name)
 
@@ -96,7 +84,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.poi_marker)
 
         // Set the custom icon for the marker
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconBitmap))
+        markerOptionsPOI.icon(BitmapDescriptorFactory.fromBitmap(iconBitmap))
 
         val customInfoPOIMarker = com.example.coordinateproject.customMarker.CustomInfoPOI(
             requireContext(),
@@ -105,15 +93,22 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             type_name
         )
         mMap.setInfoWindowAdapter(customInfoPOIMarker)
-        val marker = mMap.addMarker(markerOptions)
-        marker?.tag = customInfoPOIMarker
+        val markerPOI = mMap.addMarker(markerOptionsPOI)
+        markerPOI?.tag = customInfoPOIMarker
     }
 
     // WMO Area
-    private fun setCustomMarkerArea(location: LatLng, name: String, heading: Float, calcspeed: Double, date:String, mmsi: String, imo: String) {
-        val markerOptions = MarkerOptions()
+    private fun setCustomMarkerArea(
+        location: LatLng,
+        name: String,
+        heading: Float,
+        calcspeed: Double,
+        date:String,
+        mmsi: String,
+        imo: String) {
+        val markerOptionsArea = MarkerOptions()
             .position(location)
-            .title(name)
+            .title("name")
 
         // Load custom marker icon from drawable
         val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.other_vessel)
@@ -122,7 +117,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         val rotatedBitmap = rotateBitmap(iconBitmap, heading)
 
         // Set the custom rotated icon for the marker
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
+        markerOptionsArea.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
         val customInfoAreaMarker = com.example.coordinateproject.customMarker.CustomInfoArea(
             requireContext(),
@@ -133,8 +128,8 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             date
         )
         mMap.setInfoWindowAdapter(customInfoAreaMarker)
-        val marker = mMap.addMarker(markerOptions)
-        marker?.tag = customInfoAreaMarker
+        val markerArea = mMap.addMarker(markerOptionsArea)
+        markerArea?.tag = customInfoAreaMarker
 
     }
 
@@ -150,9 +145,9 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         date: String
     ) {
         val location = LatLng(lat, lon)
-        val markerOptions = MarkerOptions()
+        val markerOptionsWMO = MarkerOptions()
             .position(location)
-            .title(name.toString())
+            .title(name)
 
         // Load custom marker icon from drawable
         val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.custom_marker_icon)
@@ -161,7 +156,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         val rotatedBitmap = rotateBitmap(iconBitmap, heading)
 
         // Set the custom rotated icon for the marker
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
+        markerOptionsWMO.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
         val customInfoAllWMO = com.example.coordinateproject.customMarker.CustomInfoWMO(
             requireContext(),
@@ -173,8 +168,8 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         )
 
         mMap.setInfoWindowAdapter(customInfoAllWMO)
-        val marker = mMap.addMarker(markerOptions)
-        marker?.tag = customInfoAllWMO
+        val markerWMO = mMap.addMarker(markerOptionsWMO)
+        markerWMO?.tag = customInfoAllWMO
     }
 
     // Pengambilan data kapal untuk semua kapal WMO
@@ -198,7 +193,6 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             val imo = item.IMO
                             val mmsi = item.MMSI
 
-                            Log.d("API Response", "Data: $data")
                             // Create a LatLng object using the latitude and longitude
                             val location = LatLng(lat, lon)
 
@@ -241,10 +235,6 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             val calcspeed = item.calcspeed
                             val imo = item.IMO
                             val mmsi = item.MMSI
-
-                            Log.d("API Response", "Data: $data")
-                            // Create a LatLng object using the latitude and longitude
-                            val location = LatLng(lat, lon)
 
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
                             setWMOCustomMarker(lat, lon, imo, mmsi, calcspeed, heading,name, date)
@@ -322,6 +312,13 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     override fun onPause() {
         super.onPause()
         refreshHandler.removeCallbacks(refreshRunnable)
+    }
+
+    // Rotasi Bitmap menyesuaikan arah haluan kapal
+    private fun rotateBitmap(bitmap: Bitmap, degrees: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degrees)
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
     fun errorNihServernya(){
