@@ -30,6 +30,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.example.coordinateproject.customMarker.CustomInfoPOI
+import com.example.coordinateproject.customMarker.CustomInfoWMO
+import com.example.coordinateproject.customMarker.CustomInfoArea
 
 class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
@@ -95,7 +98,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         // Set the custom icon for the marker
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconBitmap))
 
-        val customInfoPOIMarker = CustomInfoPOI(
+        val customInfoPOIMarker = com.example.coordinateproject.customMarker.CustomInfoPOI(
             requireContext(),
             name,
             type,
@@ -121,7 +124,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         // Set the custom rotated icon for the marker
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
-        val customInfoAreaMarker = CustomInfoArea(
+        val customInfoAreaMarker = com.example.coordinateproject.customMarker.CustomInfoArea(
             requireContext(),
             imo,
             mmsi,
@@ -160,7 +163,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         // Set the custom rotated icon for the marker
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
-        val customInfoWMO = CustomInfoWMO(
+        val customInfoAllWMO = com.example.coordinateproject.customMarker.CustomInfoWMO(
             requireContext(),
             imo,
             mmsi,
@@ -169,9 +172,9 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             date
         )
 
-        mMap.setInfoWindowAdapter(customInfoWMO)
+        mMap.setInfoWindowAdapter(customInfoAllWMO)
         val marker = mMap.addMarker(markerOptions)
-        marker?.tag = customInfoWMO
+        marker?.tag = customInfoAllWMO
     }
 
     // Pengambilan data kapal untuk semua kapal WMO
@@ -212,13 +215,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             }
 
             override fun onFailure(call: Call<wmoarea>, t: Throwable) {
-                // Handle failure
-                // This method is called when the API call fails, for example, due to a network issue.
-                val errorServer = ErrorServer()
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.map, errorServer)
-                    .addToBackStack(null) // Optional, adds the fragment to the back stack
-                    .commit()
+                errorNihServernya()
             }
 
         })
@@ -262,13 +259,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             }
 
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                // Handle failure
-                // This method is called when the API call fails, for example, due to a network issue.
-                val errorServer = ErrorServer()
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.map, errorServer)
-                    .addToBackStack(null) // Optional, adds the fragment to the back stack
-                    .commit()
+                errorNihServernya()
             }
 
         })
@@ -310,13 +301,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             }
 
             override fun onFailure(call: Call<POIData>, t: Throwable) {
-                // Handle failure
-                // This method is called when the API call fails, for example, due to a network issue.
-                val errorServer = ErrorServer()
-                childFragmentManager.beginTransaction()
-                    .replace(R.id.map, errorServer)
-                    .addToBackStack(null) // Optional, adds the fragment to the back stack
-                    .commit()
+                errorNihServernya()
             }
 
         })
@@ -339,101 +324,12 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         refreshHandler.removeCallbacks(refreshRunnable)
     }
 
-
-
-    // Make custom info marker (POI) to showing vessel data
-    inner class CustomInfoPOI(private val context: Context,
-                                 private val name: String?,
-                                 private val type: Int,
-                                 private val type_name: String) : GoogleMap.InfoWindowAdapter {
-        @SuppressLint("InflateParams", "SetTextI18n", "MissingInflatedId")
-        override fun getInfoContents(marker: Marker): View? {
-            val infoViewPOI = LayoutInflater.from(context).inflate(R.layout.fragment_poi_detail, null)
-
-            // Temukan view yang ada di layout kustom
-            val nameTextView = infoViewPOI.findViewById<TextView>(R.id.poi_name)
-            val typeTextView = infoViewPOI.findViewById<TextView>(R.id.type)
-            val typeNameTextView = infoViewPOI.findViewById<TextView>(R.id.type_name)
-
-            nameTextView.text = "$name"
-            typeTextView.text = "Type = $type"
-            typeNameTextView.text = "Type Name = $type_name"
-
-            return infoViewPOI
-        }
-
-        override fun getInfoWindow(marker: Marker): View? {
-            val customInfoPOI = marker.tag as? CustomInfoPOI
-            return customInfoPOI?.getInfoContents(marker)
-        }
-    }
-
-    // Make custom info marker to showing All vessel data
-    inner class CustomInfoArea(private val context: Context,
-                               private val imo: String,
-                               private val mmsi: String,
-                               private val calcspeed: Double,
-                               private val name: String?,
-                               private val date: String) : GoogleMap.InfoWindowAdapter {
-
-        @SuppressLint("InflateParams", "SetTextI18n")
-        override fun getInfoContents(marker: Marker): View? {
-            val infoViewShipArea = LayoutInflater.from(context).inflate(R.layout.fragment_ship_area_detail, null)
-
-            // Temukan view yang ada di layout kustom
-            val imoTextView = infoViewShipArea.findViewById<TextView>(R.id.imo)
-            val mmsiTextView = infoViewShipArea.findViewById<TextView>(R.id.mmsi)
-            val calcspeedTextView = infoViewShipArea.findViewById<TextView>(R.id.cos)
-            val nameTextView = infoViewShipArea.findViewById<TextView>(R.id.ship_name)
-            val dateTextView = infoViewShipArea.findViewById<TextView>(R.id.ship_date)
-
-            imoTextView.text = "IMO = $imo"
-            mmsiTextView.text = "MMSI = $mmsi"
-            calcspeedTextView.text = "CoS = $calcspeed KTS"
-            nameTextView.text = "Name = $name"
-            dateTextView.text = "Date = $date"
-
-            return infoViewShipArea
-        }
-
-        override fun getInfoWindow(marker: Marker): View? {
-            val customInfoMarker = marker.tag as? MapsViewFragment.CustomInfoArea
-            return customInfoMarker?.getInfoContents(marker)
-        }
-    }
-
-    // Make custom info marker to showing WMO OSES Data
-    inner class CustomInfoWMO(private val context: Context,
-                              private val imo: String,
-                              private val mmsi: String,
-                              private val calcspeed: Int,
-                              private val name: String?,
-                              private val date: String) : GoogleMap.InfoWindowAdapter {
-
-        @SuppressLint("InflateParams", "SetTextI18n")
-        override fun getInfoContents(marker: Marker): View? {
-            val infoViewWMO = LayoutInflater.from(context).inflate(R.layout.fragment_ship_detail, null)
-
-            // Temukan view yang ada di layout kustom
-            val imoTextView = infoViewWMO.findViewById<TextView>(R.id.imo)
-            val mmsiTextView = infoViewWMO.findViewById<TextView>(R.id.mmsi)
-            val calcspeedTextView = infoViewWMO.findViewById<TextView>(R.id.cos)
-            val nameTextView = infoViewWMO.findViewById<TextView>(R.id.ship_name)
-            val dateTextView = infoViewWMO.findViewById<TextView>(R.id.ship_date)
-
-            imoTextView.text = "IMO = $imo"
-            mmsiTextView.text = "MMSI = $mmsi"
-            calcspeedTextView.text = "CoS = $calcspeed KTS"
-            nameTextView.text = "Name = $name"
-            dateTextView.text = "Date = $date"
-
-            return infoViewWMO
-        }
-
-        override fun getInfoWindow(marker: Marker): View? {
-            val customInfoMarker = marker.tag as? MapsViewFragment.CustomInfoWMO
-            return customInfoMarker?.getInfoContents(marker)
-        }
+    fun errorNihServernya(){
+        val errorServer = ErrorServer()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.map, errorServer)
+            .addToBackStack(null) // Optional, adds the fragment to the back stack
+            .commit()
     }
 
 
