@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="11dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/imo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="IMO = $imo"
+            android:textAlignment="viewStart"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/mmsi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="MMSI = $mmsi"
+            android:textAlignment="viewStart"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/cos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="CoS = $cos"
+            android:textAlignment="viewStart"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/ship_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Nama = $namaKapal"
+            android:textAlignment="viewStart"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/ship_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Tanggal = $ship_date"
+            android:textAlignment="viewStart"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

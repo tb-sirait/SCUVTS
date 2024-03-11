@@ -36,6 +36,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private val REFRESH_INTERVAL: Long = 30 * 1000 // 30 seconds in milliseconds
     private lateinit var refreshHandler: Handler
+    private var  tokenAPI: String = "73ob73y64nt3n653k4l1"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +67,9 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         val longitude = 106.816666 // Longtitude Indonesia
         val mapAwal = LatLng(latitude,longitude) // direct map view to Indonesia
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mapAwal, 2f))
-        makeWMOCall() // run the process of taking all marker (based on position from data) and apply marker to map
+        makeWMOCall()
+        makeAreaCall()
+        makePOICall()
         // Implement other LocationListener methods as needed
         refreshHandler = Handler()
         refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL)
@@ -92,15 +95,15 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         // Set the custom icon for the marker
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconBitmap))
 
-        val customInfoMarker = CustomInfoPOI(
+        val customInfoPOIMarker = CustomInfoPOI(
             requireContext(),
             name,
             type,
             type_name
         )
-        mMap.setInfoWindowAdapter(customInfoMarker)
+        mMap.setInfoWindowAdapter(customInfoPOIMarker)
         val marker = mMap.addMarker(markerOptions)
-        marker?.tag = customInfoMarker
+        marker?.tag = customInfoPOIMarker
     }
 
     // WMO Area
@@ -118,7 +121,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         // Set the custom rotated icon for the marker
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
-        val customInfoMarker = CustomInfoArea(
+        val customInfoAreaMarker = CustomInfoArea(
             requireContext(),
             imo,
             mmsi,
@@ -126,9 +129,9 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             name,
             date
         )
-        mMap.setInfoWindowAdapter(customInfoMarker)
+        mMap.setInfoWindowAdapter(customInfoAreaMarker)
         val marker = mMap.addMarker(markerOptions)
-        marker?.tag = customInfoMarker
+        marker?.tag = customInfoAreaMarker
 
     }
 
@@ -139,6 +142,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         imo: String,
         mmsi: String,
         calcspeed: Int,
+        heading: Float,
         name: String,
         date: String
     ) {
@@ -150,8 +154,11 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         // Load custom marker icon from drawable
         val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.custom_marker_icon)
 
-        // Set the custom icon for the marker
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(iconBitmap))
+        // Rotate the custom icon according to the heading
+        val rotatedBitmap = rotateBitmap(iconBitmap, heading)
+
+        // Set the custom rotated icon for the marker
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
         val customInfoWMO = CustomInfoWMO(
             requireContext(),
@@ -169,7 +176,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
     // Pengambilan data kapal untuk semua kapal WMO
     private fun makeAreaCall() {
-        val call = WMOArea.WMOAREARetrofit.apiService.getAllDataKapal("73ob73y64nt3n653k4l1")
+        val call = WMOArea.WMOAREARetrofit.apiService.getAllDataKapal(tokenAPI)
         call.enqueue(object : Callback<wmoarea> {
             override fun onResponse(call: Call<wmoarea>, response: Response<wmoarea>) {
                 if (response.isSuccessful) {
@@ -219,7 +226,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
     // Pengambilan data untuk kapal OSES
     private fun makeWMOCall() {
-        val call = WMOShip.RetrofitClient.apiService.getData("73ob73y64nt3n653k4l1")
+        val call = WMOShip.RetrofitClient.apiService.getData(tokenAPI)
         call.enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful) {
@@ -243,7 +250,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             val location = LatLng(lat, lon)
 
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
-                            setWMOCustomMarker(lat, lon, imo, mmsi, calcspeed, name, date)
+                            setWMOCustomMarker(lat, lon, imo, mmsi, calcspeed, heading,name, date)
                         }
                     }
                 } else {
@@ -269,7 +276,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
     // Pengambilan data untuk Point of Interest
     private fun makePOICall() {
-        val call = POI.POIRetrofit.apiService.getPOI("73ob73y64nt3n653k4l1")
+        val call = POI.POIRetrofit.apiService.getPOI(tokenAPI)
         call.enqueue(object : Callback<POIData> {
             override fun onResponse(call: Call<POIData>, response: Response<POIData>) {
                 if (response.isSuccessful) {
@@ -320,6 +327,8 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         override fun run() {
             mMap.clear()
             makeWMOCall()
+            makeAreaCall()
+            makePOICall()
             refreshHandler.postDelayed(this, REFRESH_INTERVAL)
         }
     }
@@ -339,18 +348,18 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                                  private val type_name: String) : GoogleMap.InfoWindowAdapter {
         @SuppressLint("InflateParams", "SetTextI18n", "MissingInflatedId")
         override fun getInfoContents(marker: Marker): View? {
-            val infoView = LayoutInflater.from(context).inflate(R.layout.fragment_poi_detail, null)
+            val infoViewPOI = LayoutInflater.from(context).inflate(R.layout.fragment_poi_detail, null)
 
             // Temukan view yang ada di layout kustom
-            val nameTextView = infoView.findViewById<TextView>(R.id.poi_name)
-            val typeTextView = infoView.findViewById<TextView>(R.id.type)
-            val typeNameTextView = infoView.findViewById<TextView>(R.id.type_name)
+            val nameTextView = infoViewPOI.findViewById<TextView>(R.id.poi_name)
+            val typeTextView = infoViewPOI.findViewById<TextView>(R.id.type)
+            val typeNameTextView = infoViewPOI.findViewById<TextView>(R.id.type_name)
 
             nameTextView.text = "$name"
             typeTextView.text = "Type = $type"
             typeNameTextView.text = "Type Name = $type_name"
 
-            return infoView
+            return infoViewPOI
         }
 
         override fun getInfoWindow(marker: Marker): View? {
@@ -369,14 +378,14 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
         @SuppressLint("InflateParams", "SetTextI18n")
         override fun getInfoContents(marker: Marker): View? {
-            val infoView = LayoutInflater.from(context).inflate(R.layout.fragment_ship_detail, null)
+            val infoViewShipArea = LayoutInflater.from(context).inflate(R.layout.fragment_ship_area_detail, null)
 
             // Temukan view yang ada di layout kustom
-            val imoTextView = infoView.findViewById<TextView>(R.id.imo)
-            val mmsiTextView = infoView.findViewById<TextView>(R.id.mmsi)
-            val calcspeedTextView = infoView.findViewById<TextView>(R.id.cos)
-            val nameTextView = infoView.findViewById<TextView>(R.id.ship_name)
-            val dateTextView = infoView.findViewById<TextView>(R.id.ship_date)
+            val imoTextView = infoViewShipArea.findViewById<TextView>(R.id.imo)
+            val mmsiTextView = infoViewShipArea.findViewById<TextView>(R.id.mmsi)
+            val calcspeedTextView = infoViewShipArea.findViewById<TextView>(R.id.cos)
+            val nameTextView = infoViewShipArea.findViewById<TextView>(R.id.ship_name)
+            val dateTextView = infoViewShipArea.findViewById<TextView>(R.id.ship_date)
 
             imoTextView.text = "IMO = $imo"
             mmsiTextView.text = "MMSI = $mmsi"
@@ -384,7 +393,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             nameTextView.text = "Name = $name"
             dateTextView.text = "Date = $date"
 
-            return infoView
+            return infoViewShipArea
         }
 
         override fun getInfoWindow(marker: Marker): View? {
@@ -403,14 +412,14 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
         @SuppressLint("InflateParams", "SetTextI18n")
         override fun getInfoContents(marker: Marker): View? {
-            val infoView = LayoutInflater.from(context).inflate(R.layout.fragment_ship_detail, null)
+            val infoViewWMO = LayoutInflater.from(context).inflate(R.layout.fragment_ship_detail, null)
 
             // Temukan view yang ada di layout kustom
-            val imoTextView = infoView.findViewById<TextView>(R.id.imo)
-            val mmsiTextView = infoView.findViewById<TextView>(R.id.mmsi)
-            val calcspeedTextView = infoView.findViewById<TextView>(R.id.cos)
-            val nameTextView = infoView.findViewById<TextView>(R.id.ship_name)
-            val dateTextView = infoView.findViewById<TextView>(R.id.ship_date)
+            val imoTextView = infoViewWMO.findViewById<TextView>(R.id.imo)
+            val mmsiTextView = infoViewWMO.findViewById<TextView>(R.id.mmsi)
+            val calcspeedTextView = infoViewWMO.findViewById<TextView>(R.id.cos)
+            val nameTextView = infoViewWMO.findViewById<TextView>(R.id.ship_name)
+            val dateTextView = infoViewWMO.findViewById<TextView>(R.id.ship_date)
 
             imoTextView.text = "IMO = $imo"
             mmsiTextView.text = "MMSI = $mmsi"
@@ -418,11 +427,11 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             nameTextView.text = "Name = $name"
             dateTextView.text = "Date = $date"
 
-            return infoView
+            return infoViewWMO
         }
 
         override fun getInfoWindow(marker: Marker): View? {
-            val customInfoMarker = marker.tag as? MapsViewFragment.CustomInfoArea
+            val customInfoMarker = marker.tag as? MapsViewFragment.CustomInfoWMO
             return customInfoMarker?.getInfoContents(marker)
         }
     }
