@@ -70,111 +70,50 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    // POI
-    private fun setCustomMarkerPOI(
-        location: LatLng,
-        name: String,
-        type: Int,
-        type_name: String) {
-        val markerOptionsPOI = MarkerOptions()
-            .position(location)
-            .title(name)
-
-        // Load custom marker icon from drawable
-        val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.poi_marker)
-
-        // Set the custom icon for the marker
-        markerOptionsPOI.icon(BitmapDescriptorFactory.fromBitmap(iconBitmap))
-
-        val customInfoPOIMarker = com.example.coordinateproject.customMarker.CustomInfoPOI(
-            requireContext(),
-            name,
-            type,
-            type_name
-        )
-        mMap.setInfoWindowAdapter(customInfoPOIMarker)
-        val markerPOI = mMap.addMarker(markerOptionsPOI)
-        markerPOI?.tag = customInfoPOIMarker
-    }
-
-    // WMO Area
-    private fun setCustomMarkerArea(
+    private fun setCustomMarker(
         location: LatLng,
         name: String,
         heading: Float,
         calcspeed: Double,
-        date:String,
-        mmsi: String,
-        imo: String) {
-        val markerOptionsArea = MarkerOptions()
-            .position(location)
-            .title("name")
-
-        // Load custom marker icon from drawable
-        val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.other_vessel)
-
-        // Rotate the custom icon according to the heading
-        val rotatedBitmap = rotateBitmap(iconBitmap, heading)
-
-        // Set the custom rotated icon for the marker
-        markerOptionsArea.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
-
-        val customInfoAreaMarker = com.example.coordinateproject.customMarker.CustomInfoArea(
-            requireContext(),
-            imo,
-            mmsi,
-            calcspeed,
-            name,
-            date
-        )
-        mMap.setInfoWindowAdapter(customInfoAreaMarker)
-        val markerArea = mMap.addMarker(markerOptionsArea)
-        markerArea?.tag = customInfoAreaMarker
-
-    }
-
-    // WMO OSES
-    private fun setWMOCustomMarker(
-        lat: Double,
-        lon: Double,
+        date: String,
         imo: String,
         mmsi: String,
-        calcspeed: Int,
-        heading: Float,
-        name: String,
-        date: String
+        type: Int,
+        type_name: String,
+        customMarkerType: Int
     ) {
-        val location = LatLng(lat, lon)
-        val markerOptionsWMO = MarkerOptions()
+        val markerOptions = MarkerOptions()
             .position(location)
             .title(name)
 
-        // Load custom marker icon from drawable
-        val iconBitmap = BitmapFactory.decodeResource(resources, R.drawable.custom_marker_icon)
+        // Load custom marker icon from drawable based on customMarkerType
+        val iconResource =
+            if (customMarkerType == 2) R.drawable.other_vessel
+            else if (customMarkerType == 1) R.drawable.custom_marker_icon
+            else R.drawable.poi_marker
+
+        val iconBitmap = BitmapFactory.decodeResource(resources, iconResource)
 
         // Rotate the custom icon according to the heading
         val rotatedBitmap = rotateBitmap(iconBitmap, heading)
 
         // Set the custom rotated icon for the marker
-        markerOptionsWMO.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
-        val customInfoAllWMO = com.example.coordinateproject.customMarker.CustomInfoWMO(
-            requireContext(),
-            imo,
-            mmsi,
-            calcspeed,
-            name,
-            date
-        )
+        val customInfoMarker =
+            if (customMarkerType == 1) com.example.coordinateproject.customMarker.CustomInfoWMO(requireContext(), imo, mmsi, calcspeed.toInt(), name, date)
+            else if (customMarkerType == 2) com.example.coordinateproject.customMarker.CustomInfoArea(requireContext(), imo, mmsi, calcspeed, name, date)
+            else com.example.coordinateproject.customMarker.CustomInfoPOI(requireContext(), name, type, type_name)
 
-        mMap.setInfoWindowAdapter(customInfoAllWMO)
-        val markerWMO = mMap.addMarker(markerOptionsWMO)
-        markerWMO?.tag = customInfoAllWMO
+        mMap.setInfoWindowAdapter(customInfoMarker)
+        val marker = mMap.addMarker(markerOptions)
+        marker?.tag = customInfoMarker
     }
 
     // Pengambilan data kapal untuk semua kapal WMO
     private fun makeAreaCall() {
         val call = WMOArea.WMOAREARetrofit.apiService.getAllDataKapal(tokenAPI)
+        val typeData = 2
         call.enqueue(object : Callback<wmoarea> {
             override fun onResponse(call: Call<wmoarea>, response: Response<wmoarea>) {
                 if (response.isSuccessful) {
@@ -197,7 +136,8 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             val location = LatLng(lat, lon)
 
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
-                            setCustomMarkerArea(location, name, heading, calcspeed, date, imo, mmsi)
+//                            setCustomMarkerArea(location, name, heading, calcspeed, date, imo, mmsi)
+                            setCustomMarker(location, name, heading, calcspeed, date, imo, mmsi, 0, "", typeData)
                         }
                     }
                 } else {
@@ -218,6 +158,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     // Pengambilan data untuk kapal OSES
     private fun makeWMOCall() {
         val call = WMOShip.RetrofitClient.apiService.getData(tokenAPI)
+        val typeData = 1
         call.enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful) {
@@ -236,8 +177,12 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             val imo = item.IMO
                             val mmsi = item.MMSI
 
+                            val location = LatLng(lat,lon)
+
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
-                            setWMOCustomMarker(lat, lon, imo, mmsi, calcspeed, heading,name, date)
+                            setCustomMarker(location, name, heading, calcspeed.toDouble(), date, imo, mmsi, 0, "", typeData)
+//                            setWMOCustomMarker(lat, lon, imo, mmsi, calcspeed, heading,name, date)
+
                         }
                     }
                 } else {
@@ -258,6 +203,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     // Pengambilan data untuk Point of Interest
     private fun makePOICall() {
         val call = POI.POIRetrofit.apiService.getPOI(tokenAPI)
+        val typeData = 3
         call.enqueue(object : Callback<POIData> {
             override fun onResponse(call: Call<POIData>, response: Response<POIData>) {
                 if (response.isSuccessful) {
@@ -273,13 +219,12 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             val lon = item.lon
                             val type_name = item.type_name
 
-
-                            Log.d("API Response", "Data: $data")
                             // Create a LatLng object using the latitude and longitude
                             val location = LatLng(lat, lon)
 
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
-                            setCustomMarkerPOI(location, name, type, type_name)
+//                            setCustomMarkerPOI(location, name, type, type_name)
+                            setCustomMarker(location, name, 0.0f, 0.0,  "", "", "", type, type_name, typeData)
                         }
                     }
                 } else {
@@ -328,6 +273,5 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             .addToBackStack(null) // Optional, adds the fragment to the back stack
             .commit()
     }
-
 
 }
