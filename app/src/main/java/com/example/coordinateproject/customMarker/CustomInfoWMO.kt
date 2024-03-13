@@ -36,8 +36,12 @@ class CustomInfoWMO(private val context: Context,
             return infoViewWMO
         }
 
-        override fun getInfoWindow(marker: Marker): View? {
-            val customInfoMarker = marker.tag as? CustomInfoWMO
-            return customInfoMarker?.getInfoContents(marker)
+    override fun getInfoWindow(marker: Marker): View? {
+        return when (val customInfoMarker = marker.tag) {
+            is CustomInfoArea -> customInfoMarker.getInfoContents(marker)
+            is CustomInfoWMO -> customInfoMarker.getInfoContents(marker)
+            is CustomInfoPOI -> customInfoMarker.getInfoContents(marker)
+            else -> null // Handle other types of CustomInfoMarker or return null if necessary
         }
+    }
 }

@@ -135,6 +135,8 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             // Create a LatLng object using the latitude and longitude
                             val location = LatLng(lat, lon)
 
+                            Log.d("data", "nama: $name")
+
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
 //                            setCustomMarkerArea(location, name, heading, calcspeed, date, imo, mmsi)
                             setCustomMarker(location, name, heading, calcspeed, date, imo, mmsi, 0, "", typeData)
@@ -151,7 +153,6 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             override fun onFailure(call: Call<wmoarea>, t: Throwable) {
                 errorNihServernya()
             }
-
         })
     }
 
@@ -181,8 +182,6 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
                             setCustomMarker(location, name, heading, calcspeed.toDouble(), date, imo, mmsi, 0, "", typeData)
-//                            setWMOCustomMarker(lat, lon, imo, mmsi, calcspeed, heading,name, date)
-
                         }
                     }
                 } else {
