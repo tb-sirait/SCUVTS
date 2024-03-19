@@ -12,37 +12,41 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.CoordinateProject"
-        tools:targetApi="tiramisu"
-        android:screenOrientation="portrait">
+        tools:targetApi="tiramisu">
+        <activity
+            android:name=".PlaybackActivity"
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBuBymw_UdpmckiSWOuelJmoy329untqUY" />
         <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/actions" />
+
         <activity
             android:name=".AboutUsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
-
-
 
 </manifest>

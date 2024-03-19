@@ -12,16 +12,13 @@ class ErrorServer : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         view.findViewById<ImageView>(R.id.okButton)?.setOnClickListener {
             onImageViewClick(it)
         }
     }
 
     fun onImageViewClick(view: View) {
-        // Lakukan tindakan yang diinginkan saat ImageView di klik
         activity?.finish()
-        // Akhiri aplikasi
         exitProcess(0)
     }
 

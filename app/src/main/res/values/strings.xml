@@ -10,4 +10,7 @@
     <string name="announce_try_again">Silahkan coba akses lain waktu.</string>
     <string name="imageerror">imageError</string>
     <string name="okeh">OK</string>
+    <string name="oses">OSES</string>
+    <string name="wmo">WMO</string>
+    <string name="poi">POI</string>
 </resources>
