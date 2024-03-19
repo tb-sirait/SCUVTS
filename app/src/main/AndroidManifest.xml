@@ -22,7 +22,7 @@
         android:theme="@style/Theme.CoordinateProject"
         tools:targetApi="tiramisu">
         <activity
-            android:name=".PlaybackActivity"
+            android:name=".playbackFeature.PlaybackActivity"
             android:exported="false" />
         <activity
             android:name=".SplashActivity"
