@@ -14,11 +14,11 @@ interface APIService {
     @GET("https://api.scu.co.id/vtms/wmo/poi") // Point of Interest (POI)
     fun getPOI(@Header("Authorization") token: String): Call<POIData> // DataXXX
 
-    @GET("https://api.scu.co.id/vtms/wmo/pbvts?mmsi={$mmsi}&from={$fromTime}&to={$toTime}")
-    fun getPBVTS(
-        @Header("Authorization") token: String,
-        fromTime: String,
-        toTime: String,
-        mmsi: String
-    )
+//    @GET("https://api.scu.co.id/vtms/wmo/pbvts?mmsi={$mmsi}&from={$fromTime}&to={$toTime}")
+//    fun getPBVTS(
+//        @Header("Authorization") token: String,
+//        fromTime: String,
+//        toTime: String,
+//        mmsi: String
+//    )
 }
