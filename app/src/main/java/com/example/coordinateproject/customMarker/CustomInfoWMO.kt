@@ -18,7 +18,7 @@ class CustomInfoWMO(private val context: Context,
 
         @SuppressLint("InflateParams", "SetTextI18n")
         override fun getInfoContents(marker: Marker): View? {
-            val infoViewWMO = LayoutInflater.from(context).inflate(R.layout.fragment_ship_detail, null)
+            val infoViewWMO = LayoutInflater.from(context).inflate(R.layout.fragment_ship_detail_wmo_modified, null)
 
             // Temukan view yang ada di layout kustom
             val imoTextView = infoViewWMO.findViewById<TextView>(R.id.imo)

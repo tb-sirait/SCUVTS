@@ -9,4 +9,8 @@ class PlaybackActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playback)
     }
+
+    private fun takingAPIData(){
+
+    }
 }
