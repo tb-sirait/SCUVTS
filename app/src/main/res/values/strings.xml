@@ -14,4 +14,7 @@
     <string name="wmo">WMO</string>
     <string name="poi">POI</string>
     <string name="play">Play</string>
+    <string name="stop">stop</string>
+    <string name="speed_pemutaran">$Speed_pemutaran</string>
+    <string name="status_playback">$Status_playback</string>
 </resources>

@@ -47,7 +47,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         mapFragment.getMapAsync { googleMap ->
-            googleMap.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
         }
         // Implement other LocationListener methods as needed
         refreshHandler = Handler()

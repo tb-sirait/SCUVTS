@@ -1,6 +1,7 @@
 package com.example.coordinateproject
 
 import android.annotation.SuppressLint
+import android.app.Instrumentation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction
 
 
 class MainActivity : AppCompatActivity() {
+    val monitor: Instrumentation.ActivityMonitor? = null
     private var isSidebarVisible = false
     @SuppressLint("WrongViewCast")
     public override fun onCreate(savedInstanceState: Bundle?) {
