@@ -4,4 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".playbackFeature.PlaybackActivity"/>
+    tools:context=".playbackFeature.PlaybackActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frameLayout"/>
+
+    <include
+        android:id="@+id/toolbarPlayback"
+        layout="@layout/toolbar_playback"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <FrameLayout
+        android:id="@+id/fragmentSidebar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarPlayback"
+        android:layout_marginTop="?android:attr/actionBarSize"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
