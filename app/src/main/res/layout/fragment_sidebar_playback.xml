@@ -25,6 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/nama_kapal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
@@ -108,9 +109,10 @@
 
         <TextView
             android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="21dp"
             android:layout_marginStart="16dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="Time"
             app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintStart_toStartOf="parent"
@@ -118,9 +120,10 @@
 
         <TextView
             android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="21dp"
+            android:layout_height="20dp"
             android:layout_marginStart="50dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="Lat"
             app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintStart_toEndOf="@+id/textView13"
@@ -129,9 +132,10 @@
 
         <TextView
             android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="20dp"
             android:layout_marginStart="52dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="Lon"
             app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintStart_toEndOf="@+id/textView10"
@@ -140,8 +144,9 @@
 
         <TextView
             android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="62dp"
+            android:layout_height="20dp"
+            android:fontFamily="@font/poppins_regular"
             android:text="Heading"
             app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintEnd_toEndOf="parent"
@@ -149,6 +154,62 @@
             app:layout_constraintStart_toEndOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/view4"
             app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:layout_width="61dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/playback_get_data_icon"
+            app:layout_constraintBottom_toTopOf="@+id/view4"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="get_data"
+            />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="50dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="9dp"
+            android:contentDescription="x2"
+            android:src="@drawable/x2_playback_speed_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="50dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="9dp"
+            android:src="@drawable/x4_playback_speed_icon"
+            app:layout_constraintStart_toEndOf="@+id/imageView5"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            android:contentDescription="x4" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="50dp"
+            android:layout_height="23dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="9dp"
+            android:src="@drawable/x8_playback_speed_icon"
+            app:layout_constraintStart_toEndOf="@+id/imageView7"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            android:contentDescription="x8" />
+
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="74dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:contentDescription="x8"
+            android:src="@drawable/play_playback_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
         <ScrollView
             android:layout_width="match_parent"
