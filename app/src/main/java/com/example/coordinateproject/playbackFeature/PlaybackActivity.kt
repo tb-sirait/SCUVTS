@@ -10,7 +10,5 @@ class PlaybackActivity : AppCompatActivity() {
         setContentView(R.layout.activity_playback)
     }
 
-    private fun takingAPIData(){
 
-    }
 }

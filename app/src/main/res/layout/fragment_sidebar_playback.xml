@@ -79,6 +79,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="from:"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView8"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/view8"
+            android:layout_width="113dp"
+            android:layout_height="25dp"
+            android:background="@drawable/box_choose_datetime"
+            app:layout_constraintBottom_toBottomOf="@+id/textView14"
+            app:layout_constraintEnd_toStartOf="@+id/textView15"
+            app:layout_constraintStart_toEndOf="@+id/textView14"
+            app:layout_constraintTop_toTopOf="@+id/textView14" />
+
+        <TextView
+            android:id="@+id/fromDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="20/11/2001 03:50:59"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view8"
+            app:layout_constraintEnd_toEndOf="@+id/view8"
+            app:layout_constraintStart_toStartOf="@+id/view8"
+            app:layout_constraintTop_toTopOf="@+id/view8"
+            app:layout_constraintVertical_bias="0.57" />
+
+
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="113dp"
+            android:layout_height="25dp"
+            android:background="@drawable/box_choose_datetime"
+            app:layout_constraintBottom_toBottomOf="@+id/textView15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView15"
+            app:layout_constraintTop_toTopOf="@+id/textView15" />
+
+        <TextView
+            android:id="@+id/fromDate2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="20/11/2001 03:50:59"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/view7"
+            app:layout_constraintEnd_toEndOf="@+id/view7"
+            app:layout_constraintStart_toStartOf="@+id/view7"
+            app:layout_constraintTop_toTopOf="@+id/view7" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="165dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="to:"
+            android:textColor="@color/black"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toTopOf="@+id/imageView8"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <View
             android:id="@+id/view4"
             android:layout_width="match_parent"
@@ -114,6 +191,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="@font/poppins_regular"
             android:text="Time"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view4" />
@@ -125,6 +203,7 @@
             android:layout_marginStart="50dp"
             android:fontFamily="@font/poppins_regular"
             android:text="Lat"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintStart_toEndOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/view4"
@@ -137,6 +216,7 @@
             android:layout_marginStart="52dp"
             android:fontFamily="@font/poppins_regular"
             android:text="Lon"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintStart_toEndOf="@+id/textView10"
             app:layout_constraintTop_toBottomOf="@+id/view4"
@@ -148,6 +228,7 @@
             android:layout_height="20dp"
             android:fontFamily="@font/poppins_regular"
             android:text="Heading"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.709"
@@ -156,60 +237,58 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
+            android:id="@+id/imageView8"
             android:layout_width="61dp"
             android:layout_height="28dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
+            android:contentDescription="get_data"
             android:src="@drawable/playback_get_data_icon"
             app:layout_constraintBottom_toTopOf="@+id/view4"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="get_data"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
+
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/x2"
             android:layout_width="50dp"
             android:layout_height="23dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="x2"
             android:src="@drawable/x2_playback_speed_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/x4"
             android:layout_width="50dp"
             android:layout_height="23dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="x4"
             android:src="@drawable/x4_playback_speed_icon"
-            app:layout_constraintStart_toEndOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/view6"
-            android:contentDescription="x4" />
+            app:layout_constraintStart_toEndOf="@+id/x2"
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/x8"
             android:layout_width="50dp"
             android:layout_height="23dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="x8"
             android:src="@drawable/x8_playback_speed_icon"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/view6"
-            android:contentDescription="x8" />
-
+            app:layout_constraintStart_toEndOf="@+id/x4"
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <ImageView
             android:id="@+id/imageView6"
             android:layout_width="74dp"
             android:layout_height="28dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="4dp"
-            android:contentDescription="x8"
+            android:layout_marginTop="1dp"
+            android:contentDescription="play"
             android:src="@drawable/play_playback_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+            app:layout_constraintTop_toBottomOf="@+id/x2" />
 
         <ScrollView
             android:layout_width="match_parent"
