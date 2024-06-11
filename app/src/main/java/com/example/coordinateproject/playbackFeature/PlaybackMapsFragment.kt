@@ -4,6 +4,8 @@ import android.graphics.BitmapFactory
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +56,7 @@ class PlaybackMapsFragment : Fragment() {
 
     // Pengambilan data untuk kapal OSES
     private fun makePBCall(mmsi: String, from: String, to: String) {
+        val customMarkerType = 1
         val call = PlaybackAPI.PBRetrofit.apiService.getPBVTSData(mmsi, from, to)
         call.enqueue(object : Callback<PBVTS> {
             override fun onResponse(call: Call<PBVTS>, response: Response<PBVTS>) {
@@ -109,16 +112,16 @@ class PlaybackMapsFragment : Fragment() {
 
         // Load custom marker icon from drawable based on customMarkerType
         val iconResource =
-            if (customMarkerType == 1) R.drawable.custom_marker_icon
+            if (customMarkerType == 1) R.drawable.pb_checkpoint_icon
             else R.drawable.poi_marker
 
         val iconBitmap = BitmapFactory.decodeResource(resources, iconResource)
 
-        // Rotate the custom icon according to the heading
-        val rotatedBitmap = rotateBitmap(iconBitmap, heading)
+//        // Rotate the custom icon according to the heading
+//        val rotatedBitmap = rotateBitmap(iconBitmap, heading)
 
-        // Set the custom rotated icon for the marker
-        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
+//        // Set the custom rotated icon for the marker
+//        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
         val customInfoMarker =
             if (customMarkerType == 1) com.example.coordinateproject.customMarker.CustomInfoWMO(requireContext(), imo, mmsi, calcspeed.toInt(), name, date)
@@ -129,5 +132,23 @@ class PlaybackMapsFragment : Fragment() {
         marker?.tag = customInfoMarker
     }
 
-    
+//    private fun startPlayback(locations: List<LatLng>) {
+//        val marker = mMap.addMarker(MarkerOptions().position(locations[0]).title("Ship"))
+//        val handler = Handler(Looper.getMainLooper())
+//        var index = 0
+//
+//        val runnable = object : Runnable {
+//            override fun run() {
+//                if (index < locations.size) {
+//                    marker.position = locations[index]
+//                    mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
+//                    index++
+//                    handler.postDelayed(this, 1000) // Mengatur interval playback (1 detik)
+//                }
+//            }
+//        }
+//        handler.post(runnable)
+//    }
+
+
 }
