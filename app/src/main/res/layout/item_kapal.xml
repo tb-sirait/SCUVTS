@@ -8,11 +8,11 @@
     android:background="@color/white">
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:padding="4dp"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/mmsi_kapal"
@@ -29,12 +29,12 @@
             android:id="@+id/nama_kapal"
             android:layout_width="110dp"
             android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/poppins_regular"
             android:text="nama_kapal"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="10sp"
-            android:layout_marginStart="8dp"
             tools:ignore="SmallSp" />
 
         <TextView
@@ -48,6 +48,13 @@
             android:textSize="10sp"
             tools:ignore="SmallSp" />
 
+        <ImageView
+            android:id="@+id/play_playback"
+            android:layout_width="70dp"
+            android:layout_height="20dp"
+            android:background="@drawable/play_playback_icon"
+            android:onClick="onImageViewClick"
+            android:contentDescription="play_the_playback" />
 
 
     </LinearLayout>

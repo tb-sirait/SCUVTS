@@ -1,27 +1,19 @@
 package com.example.coordinateproject.playbackFeature
 
 import android.graphics.BitmapFactory
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.coordinateproject.R
-import com.example.coordinateproject.response.ApiResponse
 import com.example.coordinateproject.response.PBVTS
-import com.example.coordinateproject.response.PlayBackData
 import com.example.coordinateproject.responseBypass.PlaybackAPI
-import com.example.coordinateproject.responseBypass.WMOShip
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import retrofit2.Call

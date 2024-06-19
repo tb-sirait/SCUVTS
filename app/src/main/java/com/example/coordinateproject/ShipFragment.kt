@@ -3,16 +3,16 @@ package com.example.coordinateproject
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.coordinateproject.response.wmoarea
-import com.example.coordinateproject.responseBypass.WMOArea
+import com.example.coordinateproject.response.ApiResponse
+import com.example.coordinateproject.responseBypass.WMOShip
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,10 +45,10 @@ class ShipFragment : Fragment() {
     }
 
     private fun apiCallData(){
-        val call = WMOArea.WMOAREARetrofit.apiService.getAllDataKapal("73ob73y64nt3n653k4l1")
-        call.enqueue(object : Callback<wmoarea> {
+        val call = WMOShip.RetrofitClient.apiService.getData("73ob73y64nt3n653k4l1")
+        call.enqueue(object : Callback<ApiResponse> {
             @SuppressLint("NotifyDataSetChanged")
-            override fun onResponse(call: Call<wmoarea>, response: Response<wmoarea>) {
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful) {
                     val data = response.body()
                     if (data != null) {
@@ -69,7 +69,7 @@ class ShipFragment : Fragment() {
                     Toast.makeText(context, "Can't Call API Data", Toast.LENGTH_SHORT).show()
                 }
             }
-            override fun onFailure(call: Call<wmoarea>, t: Throwable) {
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 // Handle failure
 
             }

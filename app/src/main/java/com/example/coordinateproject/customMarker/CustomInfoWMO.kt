@@ -2,10 +2,13 @@ package com.example.coordinateproject.customMarker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import com.example.coordinateproject.R
+import com.example.coordinateproject.playbackFeature.PlaybackActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 
@@ -26,6 +29,7 @@ class CustomInfoWMO(private val context: Context,
             val calcspeedTextView = infoViewWMO.findViewById<TextView>(R.id.cos)
             val nameTextView = infoViewWMO.findViewById<TextView>(R.id.ship_name)
             val dateTextView = infoViewWMO.findViewById<TextView>(R.id.ship_date)
+            val buttonPlayback = infoViewWMO.findViewById<Button>(R.id.buttonPlayback)
 
             imoTextView.text = "IMO = $imo"
             mmsiTextView.text = "MMSI = $mmsi"
@@ -33,13 +37,18 @@ class CustomInfoWMO(private val context: Context,
             nameTextView.text = "Name = $name"
             dateTextView.text = "Date = $date"
 
+            buttonPlayback.setOnClickListener {
+                val intent = Intent(context, PlaybackActivity::class.java)
+                context.startActivity(intent)
+            }
+
             return infoViewWMO
         }
 
     override fun getInfoWindow(marker: Marker): View? {
         return when (val customInfoMarker = marker.tag) {
             is CustomInfoArea -> customInfoMarker.getInfoContents(marker)
-            is CustomInfoWMO -> customInfoMarker.getInfoContents(marker)
+            is CustomInfoWMO -> null
             is CustomInfoPOI -> customInfoMarker.getInfoContents(marker)
             else -> null // Handle other types of CustomInfoMarker or return null if necessary
         }

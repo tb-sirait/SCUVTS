@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frameLayout"/>
+        android:id="@+id/mapsPlayback"/>
 
     <include
         android:id="@+id/toolbarPlayback"
@@ -19,12 +19,11 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <FrameLayout
-        android:id="@+id/fragmentSidebar"
+        android:id="@+id/sidebarPlayback"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarPlayback"
         android:layout_marginTop="?android:attr/actionBarSize"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.coordinateproject.customMarker.CustomInfoArea
+import com.example.coordinateproject.customMarker.CustomInfoPOI
+import com.example.coordinateproject.customMarker.CustomInfoWMO
 import com.example.coordinateproject.response.ApiResponse
 import com.example.coordinateproject.response.POIData
 import com.example.coordinateproject.response.wmoarea
@@ -27,12 +30,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("DEPRECATION")
 class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private val REFRESH_INTERVAL: Long = 30 * 1000 // 30 seconds in milliseconds
     private lateinit var refreshHandler: Handler
     private var tokenAPI: String = "73ob73y64nt3n653k4l1"
+    var mmsiPlayback: String? = null // WMO to Playback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,9 +54,6 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync { googleMap ->
             googleMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
         }
-        // Implement other LocationListener methods as needed
-        refreshHandler = Handler()
-        refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL)
     }
 
     //fungsi dari tampilan map
@@ -68,6 +70,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         refreshHandler = Handler()
         refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL)
 
+
     }
 
     private fun setCustomMarker(
@@ -82,9 +85,10 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         type_name: String,
         customMarkerType: Int
     ) {
+        mmsiPlayback = mmsi
+
         val markerOptions = MarkerOptions()
             .position(location)
-            .title(name)
 
         // Load custom marker icon from drawable based on customMarkerType
         val iconResource =
@@ -101,11 +105,12 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         markerOptions.icon(BitmapDescriptorFactory.fromBitmap(rotatedBitmap))
 
         val customInfoMarker =
-            if (customMarkerType == 1) com.example.coordinateproject.customMarker.CustomInfoWMO(requireContext(), imo, mmsi, calcspeed.toInt(), name, date)
-            else if (customMarkerType == 2) com.example.coordinateproject.customMarker.CustomInfoArea(requireContext(), imo, mmsi, calcspeed, name, date)
-            else com.example.coordinateproject.customMarker.CustomInfoPOI(requireContext(), name, type, type_name)
+            if (customMarkerType == 1) CustomInfoWMO(requireContext(), imo, mmsi, calcspeed.toInt(), name, date)
+            else if (customMarkerType == 2) CustomInfoArea(requireContext(), imo, mmsi, calcspeed, name, date)
+            else CustomInfoPOI(requireContext(), name, type, type_name)
 
         mMap.setInfoWindowAdapter(customInfoMarker)
+        mMap.setOnInfoWindowClickListener(null)
         val marker = mMap.addMarker(markerOptions)
         marker?.tag = customInfoMarker
     }
@@ -135,7 +140,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             // Create a LatLng object using the latitude and longitude
                             val location = LatLng(lat, lon)
 
-                            Log.d("data", "nama: $name")
+//                            Log.d("data", "nama: $name")
 
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
 //                            setCustomMarkerArea(location, name, heading, calcspeed, date, imo, mmsi)
@@ -195,7 +200,6 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 errorNihServernya()
             }
-
         })
     }
 
@@ -216,14 +220,14 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             val type = item.type
                             val lat = item.lat
                             val lon = item.lon
-                            val type_name = item.type_name
+                            val typeName = item.type_name
 
                             // Create a LatLng object using the latitude and longitude
                             val location = LatLng(lat, lon)
 
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
 //                            setCustomMarkerPOI(location, name, type, type_name)
-                            setCustomMarker(location, name, 0.0f, 0.0,  "", "", "", type, type_name, typeData)
+                            setCustomMarker(location, name, 0.0f, 0.0,  "", "", "", type, typeName, typeData)
                         }
                     }
                 } else {
@@ -233,11 +237,9 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                     Log.d("error", "$errorResponseCode : $errorMessage")
                 }
             }
-
             override fun onFailure(call: Call<POIData>, t: Throwable) {
                 errorNihServernya()
             }
-
         })
     }
 
@@ -272,5 +274,4 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             .addToBackStack(null) // Optional, adds the fragment to the back stack
             .commit()
     }
-
 }

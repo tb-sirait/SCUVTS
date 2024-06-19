@@ -17,4 +17,5 @@
     <string name="stop">stop</string>
     <string name="speed_pemutaran">$Speed_pemutaran</string>
     <string name="status_playback">$Status_playback</string>
+    <string name="test">test</string>
 </resources>

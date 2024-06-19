@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    tools:context=".playbackFeature.SidebarPlaybackFragment">
+    tools:context=".playbackFeature.SidebarPlaybackFragment"
+    android:id="@+id/sidebarPlayback">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
