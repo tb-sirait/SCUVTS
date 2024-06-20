@@ -2,6 +2,7 @@ package com.example.coordinateproject.playbackFeature
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.TranslateAnimation
 import android.widget.ImageView
@@ -21,15 +22,19 @@ class PlaybackActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playback)
 
-//        val mmsi = intent.getStringExtra("mmsi")
-//
-//        if (!mmsi.isNullOrEmpty()) {
-//            // Lakukan sesuatu dengan mmsi
-//            println("MMSI: $mmsi")
-//        } else {
-//            // Tangani kasus mmsi null atau kosong
-//            println("MMSI is null or empty")
-//        }
+        val mmsi = intent?.getStringExtra("mmsi")
+
+        if (!mmsi.isNullOrEmpty()) {
+            // Lakukan sesuatu dengan mmsi
+            println("MMSI: $mmsi")
+        } else {
+            // Tangani kasus mmsi null atau kosong
+            println("MMSI is null or empty")
+        }
+
+        // Tambahkan log di berbagai bagian kode Anda
+
+        Log.d("PlaybackActivity", "Intent received with MMSI: $mmsi")
 
         val fragmentMapsPlayback: Fragment = PlaybackMapsFragment()
         supportFragmentManager

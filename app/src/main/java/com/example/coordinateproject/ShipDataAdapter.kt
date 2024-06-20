@@ -21,14 +21,14 @@ class ShipDataAdapter(private val dataList: List<Data>) : RecyclerView.Adapter<S
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataList[position]
+
         holder.mmsiTextView.text = item.MMSI
         holder.nameTextView.text = item.name
         holder.calcspeedTextView.text = "${item.calcspeed} KTS"
 
         holder.playPlaybackImageView.setOnClickListener {
-            val context = holder.itemView.context
+            val context = it.context
             val intent = Intent(context, PlaybackActivity::class.java)
-            intent.putExtra("mmsi", item.MMSI)
             context.startActivity(intent)
         }
     }
