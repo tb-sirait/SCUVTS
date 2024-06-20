@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //test
+
         val otherOption = findViewById<ImageView>(R.id.otherOption)
         otherOption.setOnClickListener {
             Toast.makeText(this, "About clicked", Toast.LENGTH_SHORT).show()
