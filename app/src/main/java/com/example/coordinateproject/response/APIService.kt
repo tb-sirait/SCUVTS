@@ -19,6 +19,7 @@ interface APIService {
     fun getPBVTSData(
         @Query("mmsi") mmsi: String,
         @Query("from") fromDate: String,
-        @Query("to") toDate: String
+        @Query("to") toDate: String,
+        @Header("Authorization") token: String
     ): Call<PBVTS>
 }

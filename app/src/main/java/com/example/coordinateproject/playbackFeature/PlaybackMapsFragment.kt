@@ -14,14 +14,19 @@ import com.google.android.gms.maps.model.LatLng
 
 class PlaybackMapsFragment : Fragment() {
 
+    private lateinit var mMap: GoogleMap
+    var mmsi: String?= ""
+    var fromDate: String?= ""
+    var toDate: String?= ""
     private var tokenAPI: String = "73ob73y64nt3n653k4l1"
-    private lateinit var mMap:GoogleMap
 
     private val callback = OnMapReadyCallback { mMap ->
         val latitude = -6.9135609 // Lattitude WMO
         val longitude = 112.5814275 // Longtitude WMO
         val mapAwal = LatLng(latitude,longitude) // WMO
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mapAwal, 8.5f))
+
+//        makePBCall(mmsi, fromDate, toDate)
     }
 
     override fun onCreateView(
@@ -38,7 +43,7 @@ class PlaybackMapsFragment : Fragment() {
         mapFragment?.getMapAsync(callback)
     }
 
-     // Pengambilan data untuk kapal OSES
+//    // pengambilan data playback
 //    private fun makePBCall(mmsi: String, from: String, to: String) {
 //        val customMarkerType = 1
 //        val call = PlaybackAPI.PBRetrofit.apiService.getPBVTSData(mmsi, from, to)
@@ -124,8 +129,12 @@ class PlaybackMapsFragment : Fragment() {
 //        val runnable = object : Runnable {
 //            override fun run() {
 //                if (index < locations.size) {
-//                    marker.position = locations[index]
-//                    mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
+//                    if (marker != null) {
+//                        marker.position = locations[index]
+//                    }
+//                    if (marker != null) {
+//                        mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.position))
+//                    }
 //                    index++
 //                    handler.postDelayed(this, 1000) // Mengatur interval playback (1 detik)
 //                }

@@ -37,7 +37,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
     private val REFRESH_INTERVAL: Long = 30 * 1000 // 30 seconds in milliseconds
     private lateinit var refreshHandler: Handler
     private var tokenAPI: String = "73ob73y64nt3n653k4l1"
-    var mmsiPlayback: String? = null // WMO to Playback
+    var mmsiPlayback: String? = "" // WMO to Playback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,8 +69,6 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         // Implement other LocationListener methods as needed
         refreshHandler = Handler()
         refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL)
-
-
     }
 
     private fun setCustomMarker(
@@ -110,7 +108,6 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
             else CustomInfoPOI(requireContext(), name, type, type_name)
 
         mMap.setInfoWindowAdapter(customInfoMarker)
-        mMap.setOnInfoWindowClickListener(null)
         val marker = mMap.addMarker(markerOptions)
         marker?.tag = customInfoMarker
     }

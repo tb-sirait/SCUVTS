@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardElevation="6dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/poppins_regular"
+            android:text="waktu"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/lat"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="lat"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/lon"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="lon"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/hdg"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:text="heading"
+            android:textAlignment="center"
+            tools:ignore="SmallSp" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:layout_gravity="bottom"
+        />
+
+</androidx.cardview.widget.CardView>

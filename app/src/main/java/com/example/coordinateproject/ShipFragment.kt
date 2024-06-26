@@ -41,7 +41,6 @@ class ShipFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_ship, container, false)
 
-
     }
 
     private fun apiCallData(){
@@ -52,26 +51,18 @@ class ShipFragment : Fragment() {
                 if (response.isSuccessful) {
                     val data = response.body()
                     if (data != null) {
-                        // Handle the response data
                         val yourDataList = data.data
-                        val recyclerView = view?.findViewById<RecyclerView>(R.id.listKapal)
-                        val layoutManager = LinearLayoutManager(context)
-                        if (recyclerView != null) {
-                            recyclerView.layoutManager = layoutManager
-                        }
-                        val adapter = ShipDataAdapter(yourDataList)
-                        if (recyclerView != null) {
-                            recyclerView.adapter = adapter
-                            adapter.notifyDataSetChanged()
-                        }
+                        adapter = ShipDataAdapter(yourDataList)
+                        recyclerView.layoutManager = LinearLayoutManager(context)
+                        recyclerView.adapter = adapter
+                        adapter.notifyDataSetChanged()
                     }
                 } else {
                     Toast.makeText(context, "Can't Call API Data", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                // Handle failure
-
+                Toast.makeText(context, "Can't Call API Data", Toast.LENGTH_SHORT).show()
             }
         })
     }
