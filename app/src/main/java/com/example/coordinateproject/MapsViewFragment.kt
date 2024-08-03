@@ -1,5 +1,6 @@
 package com.example.coordinateproject
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
@@ -71,6 +72,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
         refreshHandler.postDelayed(refreshRunnable, REFRESH_INTERVAL)
     }
 
+    @SuppressLint("PotentialBehaviorOverride")
     private fun setCustomMarker(
         location: LatLng,
         name: String,
@@ -90,9 +92,9 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
 
         // Load custom marker icon from drawable based on customMarkerType
         val iconResource =
-            if (customMarkerType == 2) R.drawable.other_vessel
-            else if (customMarkerType == 1) R.drawable.custom_marker_icon
-            else R.drawable.poi_marker
+            if (customMarkerType == 2) R.drawable.other_vessel // kapal area
+            else if (customMarkerType == 1) R.drawable.custom_marker_icon // kapal yang dipantau
+            else R.drawable.poi_marker // Point of Interest
 
         val iconBitmap = BitmapFactory.decodeResource(resources, iconResource)
 
@@ -137,10 +139,7 @@ class MapsViewFragment : Fragment(), OnMapReadyCallback {
                             // Create a LatLng object using the latitude and longitude
                             val location = LatLng(lat, lon)
 
-//                            Log.d("data", "nama: $name")
-
                             // Marker ini khusus untuk mengetahui lokasi, nama kapal, dan arah kapal melaju menggunakan custom marker
-//                            setCustomMarkerArea(location, name, heading, calcspeed, date, imo, mmsi)
                             setCustomMarker(location, name, heading, calcspeed, date, imo, mmsi, 0, "", typeData)
                         }
                     }
