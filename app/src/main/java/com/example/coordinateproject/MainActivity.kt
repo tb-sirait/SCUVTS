@@ -1,7 +1,6 @@
 package com.example.coordinateproject
 
 import android.annotation.SuppressLint
-import android.app.Instrumentation
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -15,7 +14,6 @@ import androidx.fragment.app.FragmentTransaction
 
 
 class MainActivity : AppCompatActivity() {
-    val monitor: Instrumentation.ActivityMonitor? = null // testing
     private var isSidebarVisible = false
     @SuppressLint("WrongViewCast")
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,6 +90,8 @@ class MainActivity : AppCompatActivity() {
         // Start the animation
         sidebarContainer.startAnimation(anim)
     }
+
+
 
 
 }

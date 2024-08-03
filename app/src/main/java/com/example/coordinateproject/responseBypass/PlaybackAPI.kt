@@ -4,12 +4,17 @@ import com.example.coordinateproject.response.APIService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class PlaybackAPI {
     object PBRetrofit {
-        private const val BASE_URL = "https://api.scu.co.id/vtms/pbvts/"
+        private const val BASE_URL = "https://api.scu.co.id/vtms/wmo/"
         private const val AUTH_TOKEN = "73ob73y64nt3n653k4l1"
-        private val httpClient = OkHttpClient.Builder().addInterceptor { chain ->
+        private val httpClient = OkHttpClient.Builder()
+            .connectTimeout(45, TimeUnit.SECONDS)  // Waktu timeout koneksi
+            .readTimeout(45, TimeUnit.SECONDS)     // Waktu timeout membaca
+            .writeTimeout(45, TimeUnit.SECONDS)    // Waktu timeout menulis
+            .addInterceptor { chain ->
             val original = chain.request()
             val requestBuilder = original.newBuilder()
                 .header("Authorization", "Bearer $AUTH_TOKEN")

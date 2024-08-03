@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
+    android:layout_width="350dp"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".playbackFeature.SidebarPlaybackFragment"
     android:id="@+id/sidebarPlayback">
 
@@ -36,7 +37,7 @@
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.227"
+            app:layout_constraintHorizontal_bias="0.077"
             app:layout_constraintStart_toEndOf="@+id/textView9"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -119,17 +120,6 @@
             app:layout_constraintVertical_bias="0.57" />
 
 
-
-        <View
-            android:id="@+id/view7"
-            android:layout_width="113dp"
-            android:layout_height="25dp"
-            android:background="@drawable/box_choose_datetime"
-            app:layout_constraintBottom_toBottomOf="@+id/textView15"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView15"
-            app:layout_constraintTop_toTopOf="@+id/textView15" />
-
         <TextView
             android:id="@+id/fromDate2"
             android:layout_width="wrap_content"
@@ -142,13 +132,26 @@
             app:layout_constraintBottom_toBottomOf="@+id/view7"
             app:layout_constraintEnd_toEndOf="@+id/view7"
             app:layout_constraintStart_toStartOf="@+id/view7"
-            app:layout_constraintTop_toTopOf="@+id/view7" />
+            app:layout_constraintTop_toTopOf="@+id/view7"
+            app:layout_constraintVertical_bias="0.571" />
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="113dp"
+            android:layout_height="25dp"
+            android:background="@drawable/box_choose_datetime"
+            app:layout_constraintBottom_toBottomOf="@+id/textView15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.127"
+            app:layout_constraintStart_toEndOf="@+id/textView15"
+            app:layout_constraintTop_toTopOf="@+id/textView15"
+            app:layout_constraintVertical_bias="0.571" />
 
         <TextView
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="165dp"
+            android:layout_marginStart="168dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/poppins_regular"
             android:text="to:"
@@ -237,17 +240,17 @@
             app:layout_constraintTop_toBottomOf="@+id/view4"
             app:layout_constraintVertical_bias="0.0" />
 
+
         <ImageView
             android:id="@+id/imageView8"
             android:layout_width="61dp"
             android:layout_height="28dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="48dp"
+            android:layout_marginBottom="12dp"
             android:contentDescription="get_data"
             android:src="@drawable/playback_get_data_icon"
             app:layout_constraintBottom_toTopOf="@+id/view4"
             app:layout_constraintEnd_toEndOf="parent" />
-
 
         <ImageView
             android:id="@+id/x2"
@@ -300,11 +303,13 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:id="@+id/buatListPlayback"
+                tools:listitem="@layout/item_playback"/>
         </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</FrameLayout>
+</LinearLayout>

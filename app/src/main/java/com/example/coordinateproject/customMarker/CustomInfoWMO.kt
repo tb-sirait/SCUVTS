@@ -2,13 +2,10 @@ package com.example.coordinateproject.customMarker
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import com.example.coordinateproject.R
-import com.example.coordinateproject.playbackFeature.PlaybackActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 
@@ -21,7 +18,7 @@ class CustomInfoWMO(private val context: Context,
 
         @SuppressLint("InflateParams", "SetTextI18n")
         override fun getInfoContents(marker: Marker): View? {
-            val infoViewWMO = LayoutInflater.from(context).inflate(R.layout.fragment_ship_detail_wmo_modified, null)
+            val infoViewWMO = LayoutInflater.from(context).inflate(R.layout.fragment_ship_detail, null)
 
             // Temukan view yang ada di layout kustom
             val imoTextView = infoViewWMO.findViewById<TextView>(R.id.imo)
@@ -29,18 +26,12 @@ class CustomInfoWMO(private val context: Context,
             val calcspeedTextView = infoViewWMO.findViewById<TextView>(R.id.cos)
             val nameTextView = infoViewWMO.findViewById<TextView>(R.id.ship_name)
             val dateTextView = infoViewWMO.findViewById<TextView>(R.id.ship_date)
-            val buttonPlayback = infoViewWMO.findViewById<Button>(R.id.buttonPlayback)
 
             imoTextView.text = "IMO = $imo"
             mmsiTextView.text = "MMSI = $mmsi"
             calcspeedTextView.text = "CoS = $calcspeed KTS"
             nameTextView.text = "Name = $name"
             dateTextView.text = "Date = $date"
-
-            buttonPlayback.setOnClickListener {
-                val intent = Intent(context, PlaybackActivity::class.java)
-                context.startActivity(intent)
-            }
 
             return infoViewWMO
         }
